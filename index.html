@@ -10,6 +10,9 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Tischtennis">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 
   <title>Tischtennis</title>
 
@@ -132,9 +135,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition:
-        transform 0.17s ease,
-        box-shadow 0.17s ease;
+      transition: transform 0.17s ease, box-shadow 0.17s ease;
     }
 
     .tile:active {
@@ -142,8 +143,7 @@
     }
 
     .tile.primary {
-      background:
-        linear-gradient(145deg, var(--accent-soft), var(--card));
+      background: linear-gradient(145deg, var(--accent-soft), var(--card));
     }
 
     .tile-icon {
@@ -170,6 +170,26 @@
       font-size: 12px;
       margin-top: 5px;
       line-height: 1.3;
+    }
+
+    .tile-actions {
+      margin-top: 14px;
+    }
+
+    .secondary-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 36px;
+      padding: 8px 11px;
+      border-radius: 12px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1;
     }
 
     .notice {
@@ -257,14 +277,34 @@
         </div>
       </a>
 
-      <a class="tile"
-         href="https://www.mytischtennis.de/click-tt/WTTV/26--27/ligen/1._Bezirksliga_2/gruppe/522729/tabelle/gesamt">
+      <div class="tile">
         <div class="tile-icon">J15</div>
         <div>
           <div class="tile-title">J15 – Jugend</div>
           <div class="tile-desc">Tabelle &amp; Ergebnisse</div>
+
+          <div class="tile-actions">
+            <a class="secondary-button"
+               href="J15-Spiel-PINs.pdf"
+               target="_blank"
+               rel="noopener">
+              📄 Spiel-PINs
+            </a>
+          </div>
         </div>
-      </a>
+
+        <a href="https://www.mytischtennis.de/click-tt/WTTV/26--27/ligen/1._Bezirksliga_2/gruppe/522729/tabelle/gesamt"
+           aria-label="J15 Tabelle und Ergebnisse"
+           style="position:absolute;inset:0;border-radius:24px;z-index:1;"></a>
+
+        <a class="secondary-button"
+           href="J15-Spiel-PINs.pdf"
+           target="_blank"
+           rel="noopener"
+           style="position:absolute;left:17px;bottom:17px;z-index:2;">
+          📄 Spiel-PINs
+        </a>
+      </div>
 
       <a class="tile"
          href="https://www.mytischtennis.de/">
