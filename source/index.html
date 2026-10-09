@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <meta name="theme-color" content="#111827" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f3f6f9" media="(prefers-color-scheme: light)">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Tischtennis">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+
+  <title>Tischtennis</title>
+
+  <style>
+    :root {
+      --background: #eef2f6;
+      --background-accent: #dfe8ef;
+      --card: rgba(255,255,255,0.78);
+      --card-border: rgba(255,255,255,0.65);
+      --text: #17202a;
+      --muted: #6b7280;
+      --accent: #d92332;
+      --accent-soft: rgba(217,35,50,0.11);
+      --shadow: 0 12px 30px rgba(24,39,54,0.10);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --background: #101419;
+        --background-accent: #182027;
+        --card: rgba(31,39,47,0.78);
+        --card-border: rgba(255,255,255,0.08);
+        --text: #f5f7fa;
+        --muted: #9ca3af;
+        --accent: #ff4655;
+        --accent-soft: rgba(255,70,85,0.13);
+        --shadow: 0 12px 32px rgba(0,0,0,0.30);
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "SF Pro Text",
+        "Segoe UI",
+        Arial,
+        sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top right, var(--background-accent), transparent 38%),
+        var(--background);
+    }
+
+    a {
+      font: inherit;
+    }
+
+    .app {
+      max-width: 720px;
+      margin: 0 auto;
+      padding:
+        max(22px, env(safe-area-inset-top))
+        18px
+        calc(38px + env(safe-area-inset-bottom));
+    }
+
+    .header {
+      margin: 10px 4px 30px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 7px;
+    }
+
+    h1 {
+      font-size: clamp(34px, 9vw, 52px);
+      line-height: 1;
+      margin: 0 0 10px;
+      letter-spacing: -0.045em;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 13px;
+    }
+
+    @media (min-width: 640px) {
+      .grid {
+        grid-template-columns: repeat(3, minmax(0,1fr));
+      }
+    }
+
+    .tile {
+      position: relative;
+      min-height: 138px;
+      padding: 17px;
+      border-radius: 24px;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      text-decoration: none;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.17s ease, box-shadow 0.17s ease;
+    }
+
+    .tile:active {
+      transform: scale(0.97);
+    }
+
+    .tile.primary {
+      background: linear-gradient(145deg, var(--accent-soft), var(--card));
+    }
+
+    .tile-icon {
+      width: 45px;
+      height: 45px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .tile-title {
+      margin-top: 20px;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.15;
+    }
+
+    .tile-desc {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 5px;
+      line-height: 1.3;
+    }
+
+    .tile-actions {
+      margin-top: 14px;
+    }
+
+    .secondary-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 36px;
+      padding: 8px 11px;
+      border-radius: 12px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .notice {
+      margin-top: 20px;
+      padding: 16px 18px;
+      border-radius: 20px;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    footer {
+      margin-top: 34px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .admin-panel{display:none;max-width:760px;margin:20px auto;padding:20px;border:1px solid var(--card-border);border-radius:20px;background:var(--card)}
+    .admin-panel.active{display:block}.admin-panel input,.admin-panel textarea{width:100%;padding:12px;margin:5px 0 12px;border:1px solid #9ca3af;border-radius:10px;background:var(--background);color:var(--text);font:inherit}
+    .admin-panel button{background:#d92332;color:white;border:0;border-radius:10px;padding:10px 14px;margin:4px;cursor:pointer;font:inherit}
+    .admin-panel button.secondary{background:#56616e}.admin-panel button.danger{background:#9b2732}
+    .admin-panel .team-editor{border:1px solid var(--card-border);border-radius:14px;padding:12px;margin:12px 0}
+    .admin-panel .drop{border:2px dashed #d92332;padding:16px;text-align:center;border-radius:12px;margin:10px 0;cursor:pointer}
+    .admin-panel .file-row{display:flex;align-items:center;justify-content:space-between;gap:10px;overflow-wrap:anywhere}
+    .admin-panel .file-row button{flex-shrink:0}.admin-panel .status{white-space:pre-wrap;overflow-wrap:anywhere}
+    .admin-link{display:block;text-align:center;margin:25px auto 0;color:var(--muted);font-size:12px;text-decoration:none}
+    .admin-panel label{display:block;font-size:13px;font-weight:700}.admin-panel .help{font-size:12px;color:var(--muted)}
+  </style>
+</head>
+
+<body>
+  <main class="app">
+
+    <header class="header">
+      <div class="eyebrow">Sport</div>
+      <h1>Tischtennis</h1>
+      <div class="subtitle">TSV Aue-Wingeshausen · Saison 2026/27</div>
+    </header>
+
+    <div class="grid" id="teamGrid">
+
+      <a class="tile primary"
+         href="https://ttde-id.liga.nu/oauth2/authz/ttde?redirect_uri=https%3A%2F%2Fwttv.click-tt.de%2Fcgi-bin%2FWebObjects%2FnuLigaTTDE.woa%2Fwa%2FoAuthLogin&client_id=XtVpGjXKAhz3BZuu&scope=nuLiga&response_type=code&state=nonce%3DVF6WbXUOvThfnk6cXJFwPJDVdDlK9l17">
+        <div class="tile-icon">🔐</div>
+        <div>
+          <div class="tile-title">click-TT ID</div>
+          <div class="tile-desc">Persönlicher Login</div>
+        </div>
+      </a>
+
+      <a class="tile"
+         href="https://wttv.click-tt.de/cgi-bin/WebObjects/nuLigaTTDE.woa/wa/leaguePage?championship=S%C3%BCdwestfalen%2026/27">
+        <div class="tile-icon">🏓</div>
+        <div>
+          <div class="tile-title">click-TT</div>
+          <div class="tile-desc">Südwestfalen 2026/27</div>
+        </div>
+      </a>
+
+      <a class="tile"
+         href="https://www.mytischtennis.de/click-tt/WTTV/26--27/ligen/2._Bezirksliga_3/gruppe/522264/tabelle/gesamt">
+        <div class="tile-icon">1</div>
+        <div>
+          <div class="tile-title">1. Mannschaft</div>
+          <div class="tile-desc">Tabelle &amp; Ergebnisse</div>
+        </div>
+      </a>
+
+      <a class="tile"
+         href="https://www.mytischtennis.de/click-tt/WTTV/26--27/ligen/1._Bezirksklasse_4/gruppe/522952/tabelle/gesamt">
+        <div class="tile-icon">2</div>
+        <div>
+          <div class="tile-title">2. Mannschaft</div>
+          <div class="tile-desc">Tabelle &amp; Ergebnisse</div>
+        </div>
+      </a>
+
+      <a class="tile"
+         href="https://www.mytischtennis.de/click-tt/WTTV/26--27/ligen/2._Bezirksklasse_4/gruppe/522056/tabelle/gesamt">
+        <div class="tile-icon">3</div>
+        <div>
+          <div class="tile-title">3. Mannschaft</div>
+          <div class="tile-desc">Tabelle &amp; Ergebnisse</div>
+        </div>
+      </a>
+
+      <a class="tile"
+         href="https://www.mytischtennis.de/click-tt/WTTV/26--27/ligen/2._Bezirksklasse_4/gruppe/522056/tabelle/gesamt">
+        <div class="tile-icon">4</div>
+        <div>
+          <div class="tile-title">4. Mannschaft</div>
+          <div class="tile-desc">Tabelle &amp; Ergebnisse</div>
+        </div>
+      </a>
+
+      <div class="tile">
+        <div class="tile-icon">J15</div>
+        <div>
+          <div class="tile-title">J15 – Jugend</div>
+          <div class="tile-desc">Tabelle &amp; Ergebnisse</div>
+
+          <div class="tile-actions">
+            <a class="secondary-button"
+               href="J15-Spiel-PINs.pdf"
+               target="_blank"
+               rel="noopener">
+              📄 Spiel-PINs
+            </a>
+          </div>
+        </div>
+
+        <a href="https://www.mytischtennis.de/click-tt/WTTV/26--27/ligen/1._Bezirksliga_2/gruppe/522729/tabelle/gesamt"
+           aria-label="J15 Tabelle und Ergebnisse"
+           style="position:absolute;inset:0;border-radius:24px;z-index:1;"></a>
+
+        <a class="secondary-button"
+           href="J15-Spiel-PINs.pdf"
+           target="_blank"
+           rel="noopener"
+           style="position:absolute;left:17px;bottom:17px;z-index:2;">
+          📄 Spiel-PINs
+        </a>
+      </div>
+
+      <a class="tile"
+         href="https://www.mytischtennis.de/">
+        <div class="tile-icon">🏓</div>
+        <div>
+          <div class="tile-title">myTischtennis.de</div>
+          <div class="tile-desc">Portal öffnen</div>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="notice">
+      Alle Links öffnen direkt die hinterlegten Seiten.
+      Die Seite passt sich automatisch dem Hell- oder Dunkelmodus des iPhones an.
+    </div>
+
+    <a href="#admin" class="admin-link">Administration</a>
+    <footer>
+      TSV Aue-Wingeshausen · Tischtennis
+    </footer>
+
+  </main>
+<section id="admin" class="admin-panel" aria-label="Administration">
+  <h2>Administration</h2>
+  <p class="help">GitHub-Token wird nur im Arbeitsspeicher dieser Registerkarte gehalten. Nur Repository-Inhaber mit Schreibrecht können Änderungen speichern.</p>
+  <div id="loginArea">
+    <label>GitHub-Benutzer / Organisation<input id="owner" autocomplete="off" placeholder="z. B. meinverein"></label>
+    <label>Repository<input id="repo" autocomplete="off" placeholder="z. B. tsv-tischtennis"></label>
+    <label>Branch<input id="branch" value="main" autocomplete="off"></label>
+    <label>Fine-grained GitHub Token (Contents: Read and write)<input id="token" type="password" autocomplete="off" spellcheck="false" placeholder="github_pat_..."></label>
+    <button id="connect">Verbinden</button><button class="secondary" id="closeAdmin">Schließen</button>
+  </div>
+  <div id="editorArea" hidden>
+    <div id="teamEditors"></div>
+    <button id="addTeam">+ Mannschaft hinzufügen</button>
+    <button id="saveAll">Änderungen auf GitHub speichern</button>
+    <button class="secondary" id="logout">Abmelden</button>
+  </div>
+  <p id="status" class="status" role="status" aria-live="polite"></p>
+</section>
+<script src="app.js" defer></script>
+</body>
+</html>
