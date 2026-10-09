@@ -19,3 +19,5 @@ Für ein öffentliches Repository mit GitHub Pages und üblicher Nutzung fallen 
 
 GRENZEN
 Maximal 20 MB pro Datei (konservatives Limit). Beim Speichern erfolgen mehrere einzelne GitHub-Commits; bei Unterbrechung kann ein Teil bereits hochgeladen sein. Die Seite sollte über GitHub Pages/HTTPS geöffnet werden, nicht lokal per file://.
+
+Version 1.1: Dateibuttons zeigen den Dateinamen ohne letzte Erweiterung; Gesamt-Spielplan-Kachel mit im Admin editierbarer URL. Bestehende teams.json bleibt kompatibel, sofern bei Updates die bestehende Datei nicht durch die Beispieldatei überschrieben wird.

@@ -219,6 +219,16 @@
     .admin-panel .file-row{display:flex;align-items:center;justify-content:space-between;gap:10px;overflow-wrap:anywhere}
     .admin-panel .file-row button{flex-shrink:0}.admin-panel .status{white-space:pre-wrap;overflow-wrap:anywhere}
     .admin-link{display:block;text-align:center;margin:25px auto 0;color:var(--muted);font-size:12px;text-decoration:none}
+    .section-divider{grid-column:1/-1;display:flex;align-items:center;gap:12px;min-height:25px;margin:14px 2px 5px;color:var(--accent);font-weight:700}
+    .section-divider::before,.section-divider::after{content:"";height:1px;flex:1;background:var(--muted);opacity:.38}
+    .section-divider:not(:has(span))::before{display:none}
+    .sort-row{display:flex;align-items:center;gap:6px;padding:7px 4px;border-bottom:1px solid var(--card-border);min-width:0}
+    .sort-row.dragging{opacity:.65;background:var(--accent-soft)}
+    .sort-row .sort-name{flex:1;min-width:70px;overflow-wrap:anywhere;font-size:14px}
+    .admin-panel .sort-row input{flex:1;min-width:70px;width:auto;margin:0}
+    .admin-panel .sort-row button{padding:8px 10px;margin:0;min-width:36px}
+    .sort-grip{touch-action:none;cursor:grab;user-select:none}
+    @media(max-width:420px){.sort-row{flex-wrap:wrap}.sort-row input{flex-basis:100%!important;order:5}}
     .admin-panel label{display:block;font-size:13px;font-weight:700}.admin-panel .help{font-size:12px;color:var(--muted)}
   </style>
 </head>
@@ -350,7 +360,8 @@
     <button id="connect">Verbinden</button><button class="secondary" id="closeAdmin">Schließen</button>
   </div>
   <div id="editorArea" hidden>
-    <div id="teamEditors"></div>
+    <div class="team-editor"><strong>Allgemeine Links</strong><label>Gesamt-Spielplan – Link<input id="scheduleUrl" type="url" placeholder="https://…"></label><p class="help">Dieser Link erscheint als Kachel „Gesamt-Spielplan“ auf der Startseite.</p></div>
+    <div class="team-editor"><strong>Reihenfolge der Kacheln und Trennlinien</strong><p class="help">☰ ziehen oder die Pfeile verwenden.</p><div id="layoutEditors"></div><button id="addSeparator" type="button">+ Trennlinie hinzufügen</button></div><h3>Mannschaften bearbeiten</h3><div id="teamEditors"></div>
     <button id="addTeam">+ Mannschaft hinzufügen</button>
     <button id="saveAll">Änderungen auf GitHub speichern</button>
     <button class="secondary" id="logout">Abmelden</button>
