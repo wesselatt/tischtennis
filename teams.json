@@ -84,7 +84,6 @@
     }
   ],
   "layout": [
-    "separator:c6ed4789-30ab-4370-90d5-f9799212273c",
     "team:t1",
     "team:t2",
     "team:t3",
@@ -94,10 +93,11 @@
     "schedule",
     "login",
     "clicktt",
-    "portal"
+    "portal",
+    "separator:25d13b81-cf5c-42e8-a3fd-955e74c561f1"
   ],
   "separatorTitles": {
     "separator:bfb4e011-56cf-44b8-9dce-fde69d94c35d": "",
-    "separator:c6ed4789-30ab-4370-90d5-f9799212273c": ""
+    "separator:25d13b81-cf5c-42e8-a3fd-955e74c561f1": ""
   }
 }
