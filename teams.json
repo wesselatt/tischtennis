@@ -6,28 +6,64 @@
       "name": "1. Mannschaft",
       "icon": "1",
       "url": "https://www.mytischtennis.de/click-tt/WTTV/26--27/ligen/2._Bezirksliga_3/gruppe/522264/tabelle/gesamt",
-      "files": []
+      "files": [
+        {
+          "name": "E1 - Spielcodes.pdf",
+          "path": "uploads/t1/E1 - Spielcodes.pdf"
+        },
+        {
+          "name": "E1 - Spiel-PINs.pdf",
+          "path": "uploads/t1/E1 - Spiel-PINs.pdf"
+        }
+      ]
     },
     {
       "id": "t2",
       "name": "2. Mannschaft",
       "icon": "2",
       "url": "https://www.mytischtennis.de/click-tt/WTTV/26--27/ligen/1._Bezirksklasse_4/gruppe/522952/tabelle/gesamt",
-      "files": []
+      "files": [
+        {
+          "name": "E2 - Spielcodes.pdf",
+          "path": "uploads/t2/E2 - Spielcodes.pdf"
+        },
+        {
+          "name": "E2 - Spiel-PINs.pdf",
+          "path": "uploads/t2/E2 - Spiel-PINs.pdf"
+        }
+      ]
     },
     {
       "id": "t3",
       "name": "3. Mannschaft",
       "icon": "3",
       "url": "https://www.mytischtennis.de/click-tt/WTTV/26--27/ligen/2._Bezirksklasse_4/gruppe/522056/tabelle/gesamt",
-      "files": []
+      "files": [
+        {
+          "name": "E3 - Spielcodes.pdf",
+          "path": "uploads/t3/E3 - Spielcodes.pdf"
+        },
+        {
+          "name": "E3 - Spiel-PINs.pdf",
+          "path": "uploads/t3/E3 - Spiel-PINs.pdf"
+        }
+      ]
     },
     {
       "id": "t4",
       "name": "4. Mannschaft",
       "icon": "4",
       "url": "https://www.mytischtennis.de/click-tt/WTTV/26--27/ligen/2._Bezirksklasse_4/gruppe/522056/tabelle/gesamt",
-      "files": []
+      "files": [
+        {
+          "name": "E4 - Spielcodes.pdf",
+          "path": "uploads/t4/E4 - Spielcodes.pdf"
+        },
+        {
+          "name": "E4 - Spiel-PINs.pdf",
+          "path": "uploads/t4/E4 - Spiel-PINs.pdf"
+        }
+      ]
     },
     {
       "id": "t5",
@@ -36,8 +72,12 @@
       "url": "https://www.mytischtennis.de/click-tt/WTTV/26--27/ligen/1._Bezirksliga_2/gruppe/522729/tabelle/gesamt",
       "files": [
         {
-          "name": "J15-Spiel-PINs.pdf",
-          "path": "J15-Spiel-PINs.pdf"
+          "name": "J15 - Spielcodes.pdf",
+          "path": "uploads/t5/J15 - Spielcodes.pdf"
+        },
+        {
+          "name": "J15 - Spiel-PINs.pdf",
+          "path": "uploads/t5/J15 - Spiel-PINs.pdf"
         }
       ]
     }
