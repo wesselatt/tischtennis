@@ -209,6 +209,17 @@
       color: var(--muted);
       font-size: 12px;
     }
+
+    .admin-panel{display:none;max-width:760px;margin:20px auto;padding:20px;border:1px solid var(--card-border);border-radius:20px;background:var(--card)}
+    .admin-panel.active{display:block}.admin-panel input,.admin-panel textarea{width:100%;padding:12px;margin:5px 0 12px;border:1px solid #9ca3af;border-radius:10px;background:var(--background);color:var(--text);font:inherit}
+    .admin-panel button{background:#d92332;color:white;border:0;border-radius:10px;padding:10px 14px;margin:4px;cursor:pointer;font:inherit}
+    .admin-panel button.secondary{background:#56616e}.admin-panel button.danger{background:#9b2732}
+    .admin-panel .team-editor{border:1px solid var(--card-border);border-radius:14px;padding:12px;margin:12px 0}
+    .admin-panel .drop{border:2px dashed #d92332;padding:16px;text-align:center;border-radius:12px;margin:10px 0;cursor:pointer}
+    .admin-panel .file-row{display:flex;align-items:center;justify-content:space-between;gap:10px;overflow-wrap:anywhere}
+    .admin-panel .file-row button{flex-shrink:0}.admin-panel .status{white-space:pre-wrap;overflow-wrap:anywhere}
+    .admin-link{display:block;text-align:center;margin:25px auto 0;color:var(--muted);font-size:12px;text-decoration:none}
+    .admin-panel label{display:block;font-size:13px;font-weight:700}.admin-panel .help{font-size:12px;color:var(--muted)}
   </style>
 </head>
 
@@ -221,7 +232,7 @@
       <div class="subtitle">TSV Aue-Wingeshausen · Saison 2026/27</div>
     </header>
 
-    <div class="grid">
+    <div class="grid" id="teamGrid">
 
       <a class="tile primary"
          href="https://ttde-id.liga.nu/oauth2/authz/ttde?redirect_uri=https%3A%2F%2Fwttv.click-tt.de%2Fcgi-bin%2FWebObjects%2FnuLigaTTDE.woa%2Fwa%2FoAuthLogin&client_id=XtVpGjXKAhz3BZuu&scope=nuLiga&response_type=code&state=nonce%3DVF6WbXUOvThfnk6cXJFwPJDVdDlK9l17">
@@ -322,10 +333,30 @@
       Die Seite passt sich automatisch dem Hell- oder Dunkelmodus des iPhones an.
     </div>
 
+    <a href="#admin" class="admin-link">Administration</a>
     <footer>
       TSV Aue-Wingeshausen · Tischtennis
     </footer>
 
   </main>
+<section id="admin" class="admin-panel" aria-label="Administration">
+  <h2>Administration</h2>
+  <p class="help">GitHub-Token wird nur im Arbeitsspeicher dieser Registerkarte gehalten. Nur Repository-Inhaber mit Schreibrecht können Änderungen speichern.</p>
+  <div id="loginArea">
+    <label>GitHub-Benutzer / Organisation<input id="owner" autocomplete="off" placeholder="z. B. meinverein"></label>
+    <label>Repository<input id="repo" autocomplete="off" placeholder="z. B. tsv-tischtennis"></label>
+    <label>Branch<input id="branch" value="main" autocomplete="off"></label>
+    <label>Fine-grained GitHub Token (Contents: Read and write)<input id="token" type="password" autocomplete="off" spellcheck="false" placeholder="github_pat_..."></label>
+    <button id="connect">Verbinden</button><button class="secondary" id="closeAdmin">Schließen</button>
+  </div>
+  <div id="editorArea" hidden>
+    <div id="teamEditors"></div>
+    <button id="addTeam">+ Mannschaft hinzufügen</button>
+    <button id="saveAll">Änderungen auf GitHub speichern</button>
+    <button class="secondary" id="logout">Abmelden</button>
+  </div>
+  <p id="status" class="status" role="status" aria-live="polite"></p>
+</section>
+<script src="app.js" defer></script>
 </body>
 </html>

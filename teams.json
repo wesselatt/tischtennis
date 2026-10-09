@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "teams": [
+    {
+      "id": "t1",
+      "name": "1. Mannschaft",
+      "icon": "1",
+      "url": "https://www.mytischtennis.de/click-tt/WTTV/26--27/ligen/2._Bezirksliga_3/gruppe/522264/tabelle/gesamt",
+      "files": []
+    },
+    {
+      "id": "t2",
+      "name": "2. Mannschaft",
+      "icon": "2",
+      "url": "https://www.mytischtennis.de/click-tt/WTTV/26--27/ligen/1._Bezirksklasse_4/gruppe/522952/tabelle/gesamt",
+      "files": []
+    },
+    {
+      "id": "t3",
+      "name": "3. Mannschaft",
+      "icon": "3",
+      "url": "https://www.mytischtennis.de/click-tt/WTTV/26--27/ligen/2._Bezirksklasse_4/gruppe/522056/tabelle/gesamt",
+      "files": []
+    },
+    {
+      "id": "t4",
+      "name": "4. Mannschaft",
+      "icon": "4",
+      "url": "https://www.mytischtennis.de/click-tt/WTTV/26--27/ligen/2._Bezirksklasse_4/gruppe/522056/tabelle/gesamt",
+      "files": []
+    },
+    {
+      "id": "t5",
+      "name": "J15 – Jugend",
+      "icon": "J15",
+      "url": "https://www.mytischtennis.de/click-tt/WTTV/26--27/ligen/1._Bezirksliga_2/gruppe/522729/tabelle/gesamt",
+      "files": [
+        {
+          "name": "J15-Spiel-PINs.pdf",
+          "path": "J15-Spiel-PINs.pdf"
+        }
+      ]
+    }
+  ]
+}
