@@ -47,6 +47,10 @@ const validUrl=s=>{try{let u=new URL(s);return ['https:','http:'].includes(u.pro
 function fileHref(f){return f.path.split('/').map(enc).join('/')}
 function fileButtons(files){return (files||[]).map(f=>`<a class="secondary-button" href="${esc(fileHref(f))}" target="_blank" rel="noopener">📄 ${esc(f.label??fileTitle(f.name))}</a>`).join('')}
 function teamButtons(t){return (t.buttons||[]).map(b=>`<a class="secondary-button" href="${esc(validUrl(b.url))}" target="_blank" rel="noopener">${esc(b.label||'Link')}</a>`).join('')}
+function tileLink(owner,label){
+ const href=validUrl(owner.url);
+ return href==='#'?'':`<a href="${esc(href)}" aria-label="${esc(label)}" style="position:absolute;inset:0;border-radius:24px;z-index:1;"></a>`;
+}
 function renderPublic(){
  renderHeader();
  const grid=$('teamGrid');if(!grid)return;
@@ -54,10 +58,10 @@ function renderPublic(){
   if(id.startsWith('separator:')){const title=separatorTitles[id]||'';return `<div class="section-divider">${title?`<span>${esc(title)}</span>`:''}</div>`}
   if(id.startsWith('team:')){
    const t=teams.find(x=>'team:'+x.id===id);if(!t)return '';
-   return `<div class="tile"><div class="tile-icon">${esc(t.icon||'🏓')}</div><div><div class="tile-title">${esc(t.name)}</div><div class="tile-desc">Tabelle &amp; Ergebnisse</div><div class="tile-actions">${teamButtons(t)}${fileButtons(t.files)}</div></div><a href="${esc(validUrl(t.url))}" aria-label="${esc(t.name)} Tabelle und Ergebnisse" style="position:absolute;inset:0;border-radius:24px;z-index:1;"></a></div>`;
+   return `<div class="tile"><div class="tile-icon">${esc(t.icon||'🏓')}</div><div><div class="tile-title">${esc(t.name)}</div><div class="tile-desc">${t.url?'Tabelle &amp; Ergebnisse':'Dateien öffnen'}</div><div class="tile-actions">${teamButtons(t)}${fileButtons(t.files)}</div></div>${tileLink(t,t.name+' Tabelle und Ergebnisse')}</div>`;
   }
   const l=links.find(x=>'link:'+x.id===id);if(!l)return '';
-  return `<div class="tile"><div class="tile-icon">${esc(l.icon||'🔗')}</div><div><div class="tile-title">${esc(l.name)}</div><div class="tile-desc">${esc(l.description||'Link öffnen')}</div><div class="tile-actions">${fileButtons(l.files)}</div></div><a href="${esc(validUrl(l.url))}" aria-label="${esc(l.name)} öffnen" style="position:absolute;inset:0;border-radius:24px;z-index:1;"></a></div>`;
+  return `<div class="tile"><div class="tile-icon">${esc(l.icon||'🔗')}</div><div><div class="tile-title">${esc(l.name)}</div><div class="tile-desc">${esc(l.description||(l.url?'Link öffnen':'Dateien öffnen'))}</div><div class="tile-actions">${fileButtons(l.files)}</div></div>${tileLink(l,l.name+' öffnen')}</div>`;
  }).join('');
 }
 async function loadPublic(){try{let r=await fetch(`teams.json?t=${Date.now()}`,{cache:'no-store'});if(!r.ok)throw Error();migrate(await r.json());renderPublic()}catch(e){console.warn('Startseite konnte nicht geladen werden',e)}}
@@ -99,7 +103,7 @@ function fileEditor(container,owner){
   const details=document.createElement('div');details.className='file-details';
   const a=document.createElement('a');a.textContent=f.name;a.href=fileHref(f);a.target='_blank';a.rel='noopener';details.append(a);
   field(details,'Dateibeschriftung',f.label,v=>f.label=v);row.append(details);
-  const b=document.createElement('button');b.textContent='Entfernen';b.className='danger';b.onclick=()=>{if(confirm(`Datei ${f.name} entfernen?`)){owner.files=owner.files.filter(x=>x!==f);pending=pending.filter(x=>x.path!==f.path);removed.push(f.path);renderEditors()}};row.append(b);files.append(row);
+  const b=document.createElement('button');b.textContent='Entfernen';b.className='danger';b.onclick=()=>{owner.files=owner.files.filter(x=>x!==f);pending=pending.filter(x=>x.path!==f.path);removed.push(f.path);renderEditors()};row.append(b);files.append(row);
  });
  container.append(files);
  const drop=document.createElement('div');drop.className='drop';drop.tabIndex=0;drop.textContent='Dateien hierher ziehen oder tippen';
@@ -113,6 +117,20 @@ function field(container,label,value,oninput,type='text'){
  const l=document.createElement('label');l.textContent=label;
  const input=document.createElement('input');input.type=type;input.value=value||'';input.oninput=()=>oninput(input.value);l.append(input);container.append(l);return input;
 }
+function iconPicker(container,value,oninput){
+ const input=field(container,'Icon / eigenes Kürzel',value,oninput);
+ const choices=document.createElement('div');choices.className='icon-choices';
+ for(const [icon,name] of [['🏓','Tischtennis'],['🔗','Link'],['📄','Datei'],['📁','Ordner'],['📅','Kalender'],['🔐','Login'],['🏆','Pokal'],['👥','Mannschaft'],['🧒','Jugend'],['📍','Ort'],['ℹ️','Information'],['📢','Neuigkeiten'],['⭐','Stern'],['🏠','Startseite']]){
+  const button=document.createElement('button');button.type='button';button.className='secondary';button.textContent=icon;button.title=name;button.setAttribute('aria-label',name);
+  button.setAttribute('aria-pressed',String(icon===value));
+  button.onclick=()=>{input.value=icon;oninput(icon);for(const b of choices.children)b.setAttribute('aria-pressed',String(b===button))};choices.append(button);
+ }
+ input.oninput=()=>{oninput(input.value);for(const b of choices.children)b.setAttribute('aria-pressed',String(b.textContent===input.value))};container.append(choices);
+}
+function validTile(owner){
+ const url=(owner.url||'').trim();
+ return Boolean(owner.name.trim())&&(url?validUrl(url)!=='#':Boolean(owner.files?.length));
+}
 function renderEditors(){
  $('subtitleEditor').value=subtitle;
  renderLayout();
@@ -121,8 +139,8 @@ function renderEditors(){
   const div=document.createElement('div');div.className='team-editor';
   const heading=document.createElement('strong');heading.textContent=t.name;div.append(heading);
   field(div,'Mannschaft',t.name,v=>{t.name=v;heading.textContent=v});
-  field(div,'Symbol / Kürzel',t.icon,v=>t.icon=v);
-  field(div,'Link zur Mannschaftstabelle',t.url,v=>t.url=v,'url');
+  iconPicker(div,t.icon,v=>t.icon=v);
+  field(div,'Link zur Mannschaftstabelle (optional bei Dateien)',t.url,v=>t.url=v,'url');
   const sub=document.createElement('h4');sub.textContent='Zusätzliche Link-Buttons';div.append(sub);
   (t.buttons||[]).forEach((b,i)=>{
    const line=document.createElement('div');line.className='button-editor';
@@ -133,19 +151,19 @@ function renderEditors(){
   const add=document.createElement('button');add.className='secondary';add.textContent='+ Link-Button';add.onclick=()=>{t.buttons.push({label:'Neuer Link',url:''});renderEditors()};div.append(add);
   fileEditor(div,t);
   const del=document.createElement('button');del.className='danger';del.textContent='Mannschaft löschen';
-  del.onclick=()=>{if(confirm(`Mannschaft ${t.name} löschen?`)){removed.push(...t.files.map(x=>x.path));pending=pending.filter(x=>!x.path.startsWith(`uploads/${t.id}/`));teams=teams.filter(x=>x!==t);layout=layout.filter(x=>x!=='team:'+t.id);renderEditors()}};div.append(del);teamRoot.append(div);
+  del.onclick=()=>{removed.push(...t.files.map(x=>x.path));pending=pending.filter(x=>!x.path.startsWith(`uploads/${t.id}/`));teams=teams.filter(x=>x!==t);layout=layout.filter(x=>x!=='team:'+t.id);renderEditors()};div.append(del);teamRoot.append(div);
  });
  const linkRoot=$('linkEditors');linkRoot.replaceChildren();
  links.forEach(l=>{
   const div=document.createElement('div');div.className='team-editor';
   const heading=document.createElement('strong');heading.textContent=l.name;div.append(heading);
   field(div,'Buttonbeschriftung',l.name,v=>{l.name=v;heading.textContent=v});
-  field(div,'Icon (Emoji oder Kürzel)',l.icon,v=>l.icon=v);
+  iconPicker(div,l.icon,v=>l.icon=v);
   field(div,'Untertitel',l.description,v=>l.description=v);
-  field(div,'Zieladresse',l.url,v=>l.url=v,'url');
+  field(div,'Zieladresse (optional bei Dateien)',l.url,v=>l.url=v,'url');
   fileEditor(div,l);
   const del=document.createElement('button');del.className='danger';del.textContent='Kachel löschen';
-  del.onclick=()=>{if(confirm(`Kachel ${l.name} löschen?`)){removed.push(...l.files.map(x=>x.path));pending=pending.filter(x=>!x.path.startsWith(`uploads/${l.id}/`));links=links.filter(x=>x!==l);layout=layout.filter(x=>x!=='link:'+l.id);renderEditors()}};div.append(del);linkRoot.append(div);
+  del.onclick=()=>{removed.push(...l.files.map(x=>x.path));pending=pending.filter(x=>!x.path.startsWith(`uploads/${l.id}/`));links=links.filter(x=>x!==l);layout=layout.filter(x=>x!=='link:'+l.id);renderEditors()};div.append(del);linkRoot.append(div);
  });
 }
 function addFiles(t,files){for(let f of files){if(f.size>20*1024*1024){status(`${f.name}: maximal 20 MB pro Datei`);continue}let name=f.name.replace(/[\\/]/g,'_').replace(/[\u0000-\u001f]/g,'').trim();if(!name)continue;let p=`uploads/${t.id}/${name}`;if(t.files.some(x=>x.path===p)){if(!confirm(`${name} ersetzen?`))continue;t.files=t.files.filter(x=>x.path!==p)}t.files.push({name,path:p,label:fileTitle(f.name)});pending=pending.filter(x=>x.path!==p);pending.push({file:f,path:p})}renderEditors()}
@@ -168,8 +186,8 @@ $('addLink').onclick=()=>{const l={id:makeId(),name:'Neue Verlinkung',icon:'🔗
 $('addSeparator').onclick=()=>{const id='separator:'+makeId();separatorTitles[id]='';layout.push(id);renderLayout()};
 $('saveAll').onclick=async()=>{
  if(busy)return;
- if(teams.some(t=>!t.name.trim()||!validUrl(t.url).startsWith('http')||(t.buttons||[]).some(b=>!b.label.trim()||!validUrl(b.url).startsWith('http'))))return status('Bitte Mannschaftsnamen und alle Mannschaftslinks vollständig eingeben.');
- if(links.some(l=>!l.name.trim()||!validUrl(l.url).startsWith('http')))return status('Bitte alle allgemeinen Kacheln mit Titel und gültiger URL versehen.');
+ if(teams.some(t=>!validTile(t)||(t.buttons||[]).some(b=>!b.label.trim()||!validUrl(b.url).startsWith('http'))))return status('Bitte Mannschaftsnamen und einen gültigen Link oder mindestens eine Datei eingeben. Zusatzlinks benötigen Beschriftung und gültige URL.');
+ if(links.some(l=>!validTile(l)))return status('Bitte jede allgemeine Kachel mit Titel und einem gültigen Link oder mindestens einer Datei versehen.');
  busy=true;$('saveAll').disabled=true;
  try{
   const allFiles=[...teams,...links].flatMap(x=>x.files||[]);

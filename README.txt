@@ -1,6 +1,10 @@
-TSV Tischtennis Admin v1.4
+TSV Tischtennis Admin v1.5
 =================================
 NEU:
+- Kacheln mit ausschließlich Dateien benötigen keine Zieladresse.
+- Version 1.5 unter dem Vereinsnamen im Fußbereich.
+- Löschen ohne zusätzlichen Bestätigungsdialog; Veröffentlichung erst beim Speichern.
+- Icon-Auswahl für Mannschaften und allgemeine Kacheln; eigene Kürzel bleiben möglich.
 - Datei-Buttons nutzen die gesamte Innenbreite mit gleichen Seitenabständen.
 - Uploads erhalten als Beschriftung den Originaldateinamen ohne letzte Erweiterung.
 - Jede Dateibeschriftung ist in der Administration frei editierbar.
@@ -8,7 +12,7 @@ NEU:
 - Bestehende Dateien ohne label erhalten automatisch den bisherigen Namen ohne Erweiterung.
 - Unterüberschrift in der Administration frei editierbar, gespeichert als subtitle.
 - Aktuelles Datum rechts daneben in DD.MM.YYYY, automatisch aktualisiert.
-- Datenformat version 5; App-Version 1.4. Bisherige Funktionen bleiben erhalten.
+- Datenformat version 5; App-Version 1.5. Bisherige Funktionen bleiben erhalten.
 
 INSTALLATION / UPDATE:
 Alle Dateien außer teams.json in das bestehende GitHub-Pages-Repository hochladen.

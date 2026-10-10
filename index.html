@@ -238,6 +238,10 @@
     .tile-actions .secondary-button{width:100%;min-width:0;overflow-wrap:anywhere;line-height:1.3}
     .file-details{flex:1;min-width:0}
     @media(max-width:420px){.admin-panel .file-row{flex-wrap:wrap}.file-details{flex-basis:100%}}
+    .version{margin-top:5px}
+    .icon-choices{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}
+    .admin-panel .icon-choices button{margin:0;font-size:22px;min-width:44px;min-height:44px}
+    .admin-panel .icon-choices button[aria-pressed="true"]{background:var(--accent);outline:2px solid var(--text);outline-offset:1px}
   </style>
 </head>
 
@@ -346,6 +350,7 @@
     <a href="#admin" class="admin-link">Administration</a>
     <footer>
       TSV Aue-Wingeshausen · Tischtennis
+      <div class="version">Version 1.5</div>
     </footer>
 
   </main>
@@ -362,13 +367,13 @@
   <div id="editorArea" hidden>
     <div class="team-editor"><strong>Unterüberschrift</strong><label>Verein / Saison<input id="subtitleEditor" type="text"></label><p class="help">Das aktuelle Datum erscheint automatisch rechts daneben.</p></div>
 
-    <div class="team-editor"><strong>Reihenfolge der Kacheln und Trennlinien</strong><p class="help">☰ ziehen oder die Pfeile verwenden.</p><div id="layoutEditors"></div><button id="addSeparator" type="button">+ Trennlinie hinzufügen</button></div><h3>Allgemeine Verlinkungen</h3><p class="help">Alle bisherigen festen Kacheln können bearbeitet, gelöscht und verschoben werden. Auch Dateien sind möglich.</p><div id="linkEditors"></div><button id="addLink" type="button">+ Verlinkung hinzufügen</button><h3>Mannschaften bearbeiten</h3><div id="teamEditors"></div>
+    <div class="team-editor"><strong>Reihenfolge der Kacheln und Trennlinien</strong><p class="help">☰ ziehen oder die Pfeile verwenden.</p><div id="layoutEditors"></div><button id="addSeparator" type="button">+ Trennlinie hinzufügen</button></div><h3>Allgemeine Verlinkungen</h3><p class="help">Alle bisherigen festen Kacheln können bearbeitet, gelöscht und verschoben werden. Auch Kacheln mit ausschließlich Dateien sind möglich; die Zieladresse bleibt dann leer.</p><div id="linkEditors"></div><button id="addLink" type="button">+ Verlinkung hinzufügen</button><h3>Mannschaften bearbeiten</h3><div id="teamEditors"></div>
     <button id="addTeam">+ Mannschaft hinzufügen</button>
     <button id="saveAll">Änderungen auf GitHub speichern</button>
     <button class="secondary" id="logout">Abmelden</button>
   </div>
   <p id="status" class="status" role="status" aria-live="polite"></p>
 </section>
-<script src="app.js?v=1.4.0" defer></script>
+<script src="app.js?v=1.5.0" defer></script>
 </body>
 </html>
