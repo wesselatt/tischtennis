@@ -1,22 +1,12 @@
 {
-  "version": 3,
-  "scheduleUrl": "https://vereinskalender-tsv-aw.web.app/?public=KTVRUAwJOeEPjeZOxVE7",
+  "version": 4,
   "teams": [
     {
       "id": "t1",
       "name": "1. Mannschaft",
       "icon": "1",
       "url": "https://www.mytischtennis.de/click-tt/WTTV/26--27/ligen/2._Bezirksliga_3/gruppe/522264/tabelle/gesamt",
-      "files": [
-        {
-          "name": "Spielcodes.pdf",
-          "path": "uploads/t1/Spielcodes.pdf"
-        },
-        {
-          "name": "Spiel-PINs.pdf",
-          "path": "uploads/t1/Spiel-PINs.pdf"
-        }
-      ],
+      "files": [],
       "buttons": []
     },
     {
@@ -24,16 +14,7 @@
       "name": "2. Mannschaft",
       "icon": "2",
       "url": "https://www.mytischtennis.de/click-tt/WTTV/26--27/ligen/1._Bezirksklasse_4/gruppe/522952/tabelle/gesamt",
-      "files": [
-        {
-          "name": "Spielcodes.pdf",
-          "path": "uploads/t2/Spielcodes.pdf"
-        },
-        {
-          "name": "Spiel-PINs.pdf",
-          "path": "uploads/t2/Spiel-PINs.pdf"
-        }
-      ],
+      "files": [],
       "buttons": []
     },
     {
@@ -41,16 +22,7 @@
       "name": "3. Mannschaft",
       "icon": "3",
       "url": "https://www.mytischtennis.de/click-tt/WTTV/26--27/ligen/2._Bezirksklasse_4/gruppe/522056/tabelle/gesamt",
-      "files": [
-        {
-          "name": "Spielcodes.pdf",
-          "path": "uploads/t3/Spielcodes.pdf"
-        },
-        {
-          "name": "Spiel-PINs.pdf",
-          "path": "uploads/t3/Spiel-PINs.pdf"
-        }
-      ],
+      "files": [],
       "buttons": []
     },
     {
@@ -58,16 +30,7 @@
       "name": "4. Mannschaft",
       "icon": "4",
       "url": "https://www.mytischtennis.de/click-tt/WTTV/26--27/ligen/2._Bezirksklasse_4/gruppe/522056/tabelle/gesamt",
-      "files": [
-        {
-          "name": "Spielcodes.pdf",
-          "path": "uploads/t4/Spielcodes.pdf"
-        },
-        {
-          "name": "Spiel-PINs.pdf",
-          "path": "uploads/t4/Spiel-PINs.pdf"
-        }
-      ],
+      "files": [],
       "buttons": []
     },
     {
@@ -88,21 +51,53 @@
       "buttons": []
     }
   ],
+  "links": [
+    {
+      "id": "login",
+      "name": "click-TT ID",
+      "icon": "🔐",
+      "description": "Persönlicher Login",
+      "url": "https://ttde-id.liga.nu/oauth2/authz/ttde?redirect_uri=https%3A%2F%2Fwttv.click-tt.de%2Fcgi-bin%2FWebObjects%2FnuLigaTTDE.woa%2Fwa%2FoAuthLogin&client_id=XtVpGjXKAhz3BZuu&scope=nuLiga&response_type=code&state=nonce%3DVF6WbXUOvThfnk6cXJFwPJDVdDlK9l17",
+      "files": []
+    },
+    {
+      "id": "clicktt",
+      "name": "click-TT",
+      "icon": "🏓",
+      "description": "Südwestfalen 2026/27",
+      "url": "https://wttv.click-tt.de/cgi-bin/WebObjects/nuLigaTTDE.woa/wa/leaguePage?championship=S%C3%BCdwestfalen%2026/27",
+      "files": []
+    },
+    {
+      "id": "schedule",
+      "name": "Gesamt-Spielplan",
+      "icon": "📅",
+      "description": "Alle Spiele im Überblick",
+      "url": "https://vereinskalender-tsv-aw.web.app/?public=KTVRUAwJOeEPjeZOxVE7",
+      "files": []
+    },
+    {
+      "id": "portal",
+      "name": "myTischtennis.de",
+      "icon": "🏓",
+      "description": "Portal öffnen",
+      "url": "https://www.mytischtennis.de/",
+      "files": []
+    }
+  ],
   "layout": [
     "team:t1",
     "team:t2",
     "team:t3",
     "team:t4",
     "team:t5",
-    "separator:64bb67b5-43e1-4533-a696-496ec17e79a2",
-    "login",
-    "clicktt",
-    "schedule",
-    "portal",
-    "separator:c62b9db6-7879-498c-bbb3-c7e568abdc53"
+    "separator:99ae7a38-44f7-41fb-a3ce-bb4197312de1",
+    "link:schedule",
+    "link:login",
+    "link:clicktt",
+    "link:portal"
   ],
   "separatorTitles": {
-    "separator:64bb67b5-43e1-4533-a696-496ec17e79a2": "",
-    "separator:c62b9db6-7879-498c-bbb3-c7e568abdc53": ""
+    "separator:99ae7a38-44f7-41fb-a3ce-bb4197312de1": ""
   }
 }
