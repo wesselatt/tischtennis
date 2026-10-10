@@ -231,6 +231,13 @@
     @media(max-width:420px){.sort-row{flex-wrap:wrap}.sort-row input{flex-basis:100%!important;order:5}}
     .tile-actions{position:relative;z-index:3;display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}.tile-actions .secondary-button{position:relative;z-index:3}.button-editor{border:1px solid var(--card-border);padding:10px;border-radius:10px;margin:8px 0}.drop.dragover{background:var(--accent-soft)}
     .admin-panel label{display:block;font-size:13px;font-weight:700}.admin-panel .help{font-size:12px;color:var(--muted)}
+    .subtitle{display:flex;align-items:baseline;gap:12px;padding-left:6px}
+    #pageSubtitle{flex:1;min-width:0;overflow-wrap:anywhere}
+    #currentDate{flex-shrink:0;white-space:nowrap;font-variant-numeric:tabular-nums;font-size:13px;text-align:right}
+    .tile>div{min-width:0}
+    .tile-actions .secondary-button{width:100%;min-width:0;overflow-wrap:anywhere;line-height:1.3}
+    .file-details{flex:1;min-width:0}
+    @media(max-width:420px){.admin-panel .file-row{flex-wrap:wrap}.file-details{flex-basis:100%}}
   </style>
 </head>
 
@@ -240,7 +247,7 @@
     <header class="header">
       <div class="eyebrow">Sport</div>
       <h1>Tischtennis</h1>
-      <div class="subtitle">TSV Aue-Wingeshausen · Saison 2026/27</div>
+      <div class="subtitle"><span id="pageSubtitle">TSV Aue-Wingeshausen · Saison 2026/27</span><time id="currentDate" aria-label="Aktuelles Datum"></time></div>
     </header>
 
     <div class="grid" id="teamGrid">
@@ -318,14 +325,6 @@
         <a href="https://www.mytischtennis.de/click-tt/WTTV/26--27/ligen/1._Bezirksliga_2/gruppe/522729/tabelle/gesamt"
            aria-label="J15 Tabelle und Ergebnisse"
            style="position:absolute;inset:0;border-radius:24px;z-index:1;"></a>
-
-        <a class="secondary-button"
-           href="J15-Spiel-PINs.pdf"
-           target="_blank"
-           rel="noopener"
-           style="position:absolute;left:17px;bottom:17px;z-index:2;">
-          📄 Spiel-PINs
-        </a>
       </div>
 
       <a class="tile"
@@ -361,6 +360,7 @@
     <button id="connect">Verbinden</button><button class="secondary" id="closeAdmin">Schließen</button>
   </div>
   <div id="editorArea" hidden>
+    <div class="team-editor"><strong>Unterüberschrift</strong><label>Verein / Saison<input id="subtitleEditor" type="text"></label><p class="help">Das aktuelle Datum erscheint automatisch rechts daneben.</p></div>
 
     <div class="team-editor"><strong>Reihenfolge der Kacheln und Trennlinien</strong><p class="help">☰ ziehen oder die Pfeile verwenden.</p><div id="layoutEditors"></div><button id="addSeparator" type="button">+ Trennlinie hinzufügen</button></div><h3>Allgemeine Verlinkungen</h3><p class="help">Alle bisherigen festen Kacheln können bearbeitet, gelöscht und verschoben werden. Auch Dateien sind möglich.</p><div id="linkEditors"></div><button id="addLink" type="button">+ Verlinkung hinzufügen</button><h3>Mannschaften bearbeiten</h3><div id="teamEditors"></div>
     <button id="addTeam">+ Mannschaft hinzufügen</button>
@@ -369,6 +369,6 @@
   </div>
   <p id="status" class="status" role="status" aria-live="polite"></p>
 </section>
-<script src="app.js?v=1.3.0" defer></script>
+<script src="app.js?v=1.4.0" defer></script>
 </body>
 </html>

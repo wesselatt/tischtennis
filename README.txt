@@ -1,16 +1,24 @@
-TSV Tischtennis Admin v1.3
+TSV Tischtennis Admin v1.4
 =================================
 NEU:
-- Zusätzliche Mannschaftslinks mit frei wählbarer Buttonbeschriftung
-- Allgemeine Linkkacheln frei anlegen, bearbeiten, löschen, sortieren und mit Symbol versehen
-- Dateien an Mannschaften und allgemeine Kacheln hängen
-- Sortieren mit Ziehgriff (Pointer-Events) oder Pfeilen
-- Bestehende Konfigurationen aus v1.2 werden beim Admin-Login automatisch eingelesen und erst beim Speichern in v4 migriert.
+- Datei-Buttons nutzen die gesamte Innenbreite mit gleichen Seitenabständen.
+- Uploads erhalten als Beschriftung den Originaldateinamen ohne letzte Erweiterung.
+- Jede Dateibeschriftung ist in der Administration frei editierbar.
+- teams.json speichert die Beschriftung unter files[].label.
+- Bestehende Dateien ohne label erhalten automatisch den bisherigen Namen ohne Erweiterung.
+- Unterüberschrift in der Administration frei editierbar, gespeichert als subtitle.
+- Aktuelles Datum rechts daneben in DD.MM.YYYY, automatisch aktualisiert.
+- Datenformat version 5; App-Version 1.4. Bisherige Funktionen bleiben erhalten.
 
-INSTALLATION:
+INSTALLATION / UPDATE:
 Alle Dateien außer teams.json in das bestehende GitHub-Pages-Repository hochladen.
-WICHTIG: Bestehende teams.json NICHT überschreiben, wenn die Administration bereits
-verwendet wurde! Die App übernimmt die alten Daten und speichert das neue Format.
-Bei Neuinstallation teams.json aus diesem ZIP hochladen.
+Bestehende teams.json und hochgeladene Dateien NICHT überschreiben oder löschen!
+Die App liest ältere Konfigurationen; die Migration wird beim nächsten Speichern
+in der Administration dauerhaft in teams.json übernommen.
+Bei Neuinstallation teams.json aus diesem ZIP verwenden.
+Der bestehende Link J15-Spiel-PINs.pdf bleibt erhalten. Die PDF selbst war im
+Ausgangs-ZIP v1.3 nicht enthalten; sie muss im Repository bereits vorhanden sein
+oder unter diesem Namen ergänzt werden.
+Die Reihenfolge, Trennlinien, Mannschaftslinks, Zusatzlinks und Symbole bleiben erhalten.
 Das GitHub-Token niemals veröffentlichen. Dateien im öffentlichen Repo sind öffentlich.
-Nach dem Upload die Seite ggf. hart neu laden bzw. Safari-Cache aktualisieren.
+Nach dem Update ggf. Safari-Cache aktualisieren und Seite neu laden.

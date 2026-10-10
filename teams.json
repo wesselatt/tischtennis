@@ -1,5 +1,5 @@
 {
-  "version": 4,
+  "version": 5,
   "teams": [
     {
       "id": "t1",
@@ -40,17 +40,27 @@
       "url": "https://www.mytischtennis.de/click-tt/WTTV/26--27/ligen/1._Bezirksliga_2/gruppe/522729/tabelle/gesamt",
       "files": [
         {
-          "name": "Spielcodes.pdf",
-          "path": "uploads/t5/Spielcodes.pdf"
-        },
-        {
-          "name": "Spiel-PINs.pdf",
-          "path": "uploads/t5/Spiel-PINs.pdf"
+          "name": "J15-Spiel-PINs.pdf",
+          "path": "J15-Spiel-PINs.pdf",
+          "label": "J15-Spiel-PINs"
         }
       ],
       "buttons": []
     }
   ],
+  "scheduleUrl": "https://vereinskalender-tsv-aw.web.app/?public=KTVRUAwJOeEPjeZOxVE7",
+  "layout": [
+    "link:login",
+    "link:clicktt",
+    "team:t1",
+    "team:t2",
+    "team:t3",
+    "team:t4",
+    "team:t5",
+    "link:schedule",
+    "link:portal"
+  ],
+  "separatorTitles": {},
   "links": [
     {
       "id": "login",
@@ -85,19 +95,5 @@
       "files": []
     }
   ],
-  "layout": [
-    "team:t1",
-    "team:t2",
-    "team:t3",
-    "team:t4",
-    "team:t5",
-    "separator:99ae7a38-44f7-41fb-a3ce-bb4197312de1",
-    "link:schedule",
-    "link:login",
-    "link:clicktt",
-    "link:portal"
-  ],
-  "separatorTitles": {
-    "separator:99ae7a38-44f7-41fb-a3ce-bb4197312de1": ""
-  }
+  "subtitle": "TSV Aue-Wingeshausen · Saison 2026/27"
 }

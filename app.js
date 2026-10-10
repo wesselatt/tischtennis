@@ -11,7 +11,15 @@ const defaultLinks=[
 {id:'schedule',name:'Gesamt-Spielplan',icon:'📅',description:'Alle Spiele im Überblick',url:defaultSchedule,files:[]},
 {id:'portal',name:'myTischtennis.de',icon:'🏓',description:'Portal öffnen',url:'https://www.mytischtennis.de/',files:[]}
 ];
-let links=[],layout=[],separatorTitles={};
+const defaultSubtitle='TSV Aue-Wingeshausen · Saison 2026/27';
+let links=[],layout=[],separatorTitles={},subtitle=defaultSubtitle;
+const normalizeFiles=files=>(files||[]).map(f=>({...f,label:typeof f.label==='string'?f.label:fileTitle(f.name||f.path?.split('/').pop())}));
+function renderHeader(){
+ $('pageSubtitle').textContent=subtitle;
+ const now=new Date();
+ $('currentDate').textContent=[now.getDate(),now.getMonth()+1,now.getFullYear()].map((v,i)=>i<2?String(v).padStart(2,'0'):String(v)).join('.');
+ $('currentDate').dateTime=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+}
 const clone=x=>JSON.parse(JSON.stringify(x));
 function normalizeLayout(value){
  const known=[...links.map(x=>'link:'+x.id),...teams.map(t=>'team:'+t.id)];
@@ -20,9 +28,10 @@ function normalizeLayout(value){
  return [...new Set([...proposed.filter(x=>known.includes(x)||x.startsWith('separator:')),...known])];
 }
 function migrate(data){
- teams=(data.teams||[]).map(t=>({...t,files:t.files||[],buttons:t.buttons||[]}));
- links=(Array.isArray(data.links)?data.links:defaultLinks).map(x=>({...x,files:x.files||[]}));
+ teams=(data.teams||[]).map(t=>({...t,files:normalizeFiles(t.files),buttons:t.buttons||[]}));
+ links=(Array.isArray(data.links)?data.links:defaultLinks).map(x=>({...x,files:normalizeFiles(x.files)}));
  if(!Array.isArray(data.links)){const schedule=links.find(x=>x.id==='schedule');schedule.url=data.scheduleUrl||defaultSchedule}
+ subtitle=typeof data.subtitle==='string'?data.subtitle:defaultSubtitle;
  separatorTitles=data.separatorTitles||{};layout=normalizeLayout(data.layout);
 }
 const labelFor=id=>id.startsWith('team:')?(teams.find(t=>'team:'+t.id===id)?.name||id):id.startsWith('link:')?(links.find(l=>'link:'+l.id===id)?.name||id):'Trennlinie';
@@ -36,9 +45,10 @@ async function putFile(p,content,message){let old=await getFile(p);return api(`/
 async function deleteFile(p){let old=await getFile(p);if(old)await api(`/contents/${path(p)}`,{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:`TSV: Datei entfernen ${p}`,sha:old.sha,branch:settings.branch})})}
 const validUrl=s=>{try{let u=new URL(s);return ['https:','http:'].includes(u.protocol)?u.href:'#'}catch{return '#'}};
 function fileHref(f){return f.path.split('/').map(enc).join('/')}
-function fileButtons(files){return (files||[]).map(f=>`<a class="secondary-button" href="${esc(fileHref(f))}" target="_blank" rel="noopener">📄 ${esc(fileTitle(f.name))}</a>`).join('')}
+function fileButtons(files){return (files||[]).map(f=>`<a class="secondary-button" href="${esc(fileHref(f))}" target="_blank" rel="noopener">📄 ${esc(f.label??fileTitle(f.name))}</a>`).join('')}
 function teamButtons(t){return (t.buttons||[]).map(b=>`<a class="secondary-button" href="${esc(validUrl(b.url))}" target="_blank" rel="noopener">${esc(b.label||'Link')}</a>`).join('')}
 function renderPublic(){
+ renderHeader();
  const grid=$('teamGrid');if(!grid)return;
  grid.innerHTML=layout.map(id=>{
   if(id.startsWith('separator:')){const title=separatorTitles[id]||'';return `<div class="section-divider">${title?`<span>${esc(title)}</span>`:''}</div>`}
@@ -86,7 +96,9 @@ function fileEditor(container,owner){
  const files=document.createElement('div');files.className='files';
  (owner.files||[]).forEach(f=>{
   const row=document.createElement('div');row.className='file-row';
-  const a=document.createElement('a');a.textContent=fileTitle(f.name);a.href=fileHref(f);a.target='_blank';row.append(a);
+  const details=document.createElement('div');details.className='file-details';
+  const a=document.createElement('a');a.textContent=f.name;a.href=fileHref(f);a.target='_blank';a.rel='noopener';details.append(a);
+  field(details,'Dateibeschriftung',f.label,v=>f.label=v);row.append(details);
   const b=document.createElement('button');b.textContent='Entfernen';b.className='danger';b.onclick=()=>{if(confirm(`Datei ${f.name} entfernen?`)){owner.files=owner.files.filter(x=>x!==f);pending=pending.filter(x=>x.path!==f.path);removed.push(f.path);renderEditors()}};row.append(b);files.append(row);
  });
  container.append(files);
@@ -102,6 +114,7 @@ function field(container,label,value,oninput,type='text'){
  const input=document.createElement('input');input.type=type;input.value=value||'';input.oninput=()=>oninput(input.value);l.append(input);container.append(l);return input;
 }
 function renderEditors(){
+ $('subtitleEditor').value=subtitle;
  renderLayout();
  const teamRoot=$('teamEditors');teamRoot.replaceChildren();
  teams.forEach(t=>{
@@ -135,7 +148,7 @@ function renderEditors(){
   del.onclick=()=>{if(confirm(`Kachel ${l.name} löschen?`)){removed.push(...l.files.map(x=>x.path));pending=pending.filter(x=>!x.path.startsWith(`uploads/${l.id}/`));links=links.filter(x=>x!==l);layout=layout.filter(x=>x!=='link:'+l.id);renderEditors()}};div.append(del);linkRoot.append(div);
  });
 }
-function addFiles(t,files){for(let f of files){if(f.size>20*1024*1024){status(`${f.name}: maximal 20 MB pro Datei`);continue}let name=f.name.replace(/[\\/]/g,'_').replace(/[\u0000-\u001f]/g,'').trim();if(!name)continue;let p=`uploads/${t.id}/${name}`;if(t.files.some(x=>x.path===p)){if(!confirm(`${name} ersetzen?`))continue;t.files=t.files.filter(x=>x.path!==p)}t.files.push({name,path:p});pending=pending.filter(x=>x.path!==p);pending.push({file:f,path:p})}renderEditors()}
+function addFiles(t,files){for(let f of files){if(f.size>20*1024*1024){status(`${f.name}: maximal 20 MB pro Datei`);continue}let name=f.name.replace(/[\\/]/g,'_').replace(/[\u0000-\u001f]/g,'').trim();if(!name)continue;let p=`uploads/${t.id}/${name}`;if(t.files.some(x=>x.path===p)){if(!confirm(`${name} ersetzen?`))continue;t.files=t.files.filter(x=>x.path!==p)}t.files.push({name,path:p,label:fileTitle(f.name)});pending=pending.filter(x=>x.path!==p);pending.push({file:f,path:p})}renderEditors()}
 function adminVisibility(){let active=location.hash==='#admin';$('admin').classList.toggle('active',active);document.querySelector('main.app').style.display=active?'none':'';if(active)window.scrollTo(0,0)}
 window.addEventListener('hashchange',adminVisibility);adminVisibility();$('closeAdmin').onclick=()=>location.hash='';
 $('connect').onclick=async()=>{
@@ -165,10 +178,13 @@ $('saveAll').onclick=async()=>{
   for(const x of pending){status(`Upload ${++n}/${total}: ${x.file.name}`);await putFile(x.path,await bytesb64(x.file),`TSV: ${x.file.name} hochladen`)}
   for(const p of deleted){status(`Löschen ${++n}/${total}: ${p}`);await deleteFile(p)}
   status(`Speichere Konfiguration ${++n}/${total}`);
-  await putFile('teams.json',utf8b64(JSON.stringify({version:4,teams,links,layout,separatorTitles},null,2)),'TSV: Homepage aktualisieren');
+  await putFile('teams.json',utf8b64(JSON.stringify({version:5,subtitle,teams,links,layout,separatorTitles},null,2)),'TSV: Homepage aktualisieren');
   pending=[];removed=[];status('Erfolgreich gespeichert! GitHub Pages aktualisiert die Webseite kurz danach.');renderEditors();renderPublic();
  }catch(e){status('Speichern unterbrochen: '+e.message+' – erneut versuchen.')}finally{busy=false;$('saveAll').disabled=false}
 };
 $('logout').onclick=()=>{settings.token='';$('editorArea').hidden=true;$('loginArea').hidden=false;pending=[];removed=[];status('Abgemeldet.')};
+$('subtitleEditor').oninput=()=>subtitle=$('subtitleEditor').value;
+renderHeader();setInterval(renderHeader,30000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)renderHeader()});
 loadPublic();
 })();
