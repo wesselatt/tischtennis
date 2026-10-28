@@ -17,6 +17,16 @@
           "name": "Spiel-PINs.pdf",
           "path": "uploads/t1/Spiel-PINs.pdf",
           "label": "Spiel-PINs"
+        },
+        {
+          "name": "Pokal-Spielcodes.pdf",
+          "path": "uploads/t1/Pokal-Spielcodes.pdf",
+          "label": "Pokal-Spielcodes"
+        },
+        {
+          "name": "Pokal-Spiel-PINs.pdf",
+          "path": "uploads/t1/Pokal-Spiel-PINs.pdf",
+          "label": "Pokal-Spiel-PINs"
         }
       ],
       "buttons": []
